@@ -30,7 +30,7 @@ paru:
     # Look at https://github.com/htdebeer/paru/blob/master/lib/paru/pandoc_options.yaml for all options
     no_highlight: true
     shift_heading_level_by: 1
-    filters:
+    filter:
       - pandoc-crossref
       - pandoc-katex
     metadata:

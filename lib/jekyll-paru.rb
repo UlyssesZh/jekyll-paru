@@ -10,7 +10,7 @@ module Jekyll
 			@config = config
 
 			@paru = ::Paru::Pandoc.new do
-				@@pandoc_exec = config['paru']&.[]('exec') || @@pandoc_exec
+				self.class.class_variable_set :@@pandoc_exec, config['paru']&.[]('exec') || self.class.class_variable_get(:@@pandoc_exec)
 				@options = config['paru']&.[]('options')&.dup || {}
 				from 'markdown'
 				to 'html5'
@@ -18,8 +18,9 @@ module Jekyll
 					default = ::Paru::Pandoc::OPTIONS[key]
 					if default.nil?
 						@options.delete key
+						Jekyll.logger.warn 'Paru:', "Unknown option #{key}, ignoring"
 					elsif default.is_a? Array
-						@options[key] = default + [value].flatten
+						@options[key] = [value].flatten
 					end
 				end
 			end
